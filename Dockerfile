@@ -8,6 +8,15 @@ RUN --mount=type=bind,source=./pyproject.toml,target=/io/pyproject.toml \
 
 FROM python:3.11-slim-bookworm AS base
 
+RUN \
+    --mount=type=cache,target=/var/lib/apt/lists \
+    --mount=type=cache,target=/var/cache/apt/archives \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    git \
+    openssh-client \
+    ca-certificates
+
 RUN --mount=type=bind,from=req,source=/requirements.txt,target=/requirements.txt \
     pip install --no-cache-dir -r /requirements.txt
 
