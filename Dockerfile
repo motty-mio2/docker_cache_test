@@ -20,6 +20,7 @@ COPY ./src /app/src
 
 RUN --mount=type=bind,source=./pyproject.toml,target=/app/pyproject.toml \
     --mount=type=bind,source=./README.md,target=/app/README.md \
-    pip install --no-cache-dir /app
+    pip install --no-cache-dir /app && \
+    ssh git@github.com
 
 CMD ["python", "-m", "docker_cache_test.main"]
