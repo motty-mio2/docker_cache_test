@@ -29,11 +29,11 @@ COPY ./src /app/src
 
 RUN --mount=type=bind,source=./pyproject.toml,target=/app/pyproject.toml \
     --mount=type=bind,source=./README.md,target=/app/README.md \
-    --mount=type=ssh \
     pip install --no-cache-dir /app
 
 
-RUN mkdir -p /root/.ssh && \
+RUN --mount=type=ssh \
+    mkdir -p /root/.ssh && \
     ssh-keyscan github.com >> /root/.ssh/known_hosts && \
     ssh -T git@github.com || true
 
